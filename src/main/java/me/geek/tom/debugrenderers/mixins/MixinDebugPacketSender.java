@@ -1,4 +1,4 @@
-package me.geek.tom.debugrenderers.mixins.mixins;
+package me.geek.tom.debugrenderers.mixins;
 
 import io.netty.buffer.Unpooled;
 import me.geek.tom.debugrenderers.utils.PacketUtils;
@@ -16,6 +16,7 @@ import net.minecraft.tileentity.BeehiveTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.WorldGenRegion;
@@ -160,7 +161,7 @@ public class MixinDebugPacketSender {
         buf.writeInt(te.getBlockState().get(BlockStateProperties.HONEY_LEVEL));
         buf.writeBoolean(te.isSmoked());
 
-        func_229753_a_((ServerWorld) te.getWorld(), buf, SCustomPayloadPlayPacket.field_229728_n_);
+        func_229753_a_((ServerWorld) te.getWorld(), buf, SCustomPayloadPlayPacket.DEBUG_HIVE);
     }
 
     /**
@@ -178,7 +179,7 @@ public class MixinDebugPacketSender {
 
         PacketUtils.writeBeeToBuf(buf, bee);
 
-        func_229753_a_((ServerWorld) bee.getEntityWorld(), buf, SCustomPayloadPlayPacket.field_229727_m_);
+        func_229753_a_((ServerWorld) bee.getEntityWorld(), buf, SCustomPayloadPlayPacket.DEBUG_BEE);
     }
 
     /**
@@ -216,12 +217,12 @@ public class MixinDebugPacketSender {
      */
     @Inject(method = "sendStructureStart",
             at = @At("HEAD"))
-    private static void onSendStructureStart(IWorld world, StructureStart struct, CallbackInfo ci) {
+    private static void onSendStructureStart(ISeedReader world, StructureStart<?> struct, CallbackInfo ci) {
         if (!(world instanceof WorldGenRegion) || !RenderersState.INSTANCE.get(STRUCTURE)) return;
         ServerWorld sWorld = ((WorldGenRegion) world).getWorld();
         PacketBuffer buf = new PacketBuffer(Unpooled.buffer());
 
-        buf.writeInt(sWorld.getWorld().dimension.getType().getId());
+        buf.writeResourceLocation(sWorld.getWorld().getDimensionKey().getLocation());
         PacketUtils.writeBBToBuf(struct.getBoundingBox(), buf);
         List<StructurePiece> parts = struct.getComponents();
         buf.writeInt(parts.size());

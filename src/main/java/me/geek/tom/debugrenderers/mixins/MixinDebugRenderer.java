@@ -1,4 +1,4 @@
-package me.geek.tom.debugrenderers.mixins.mixins;
+package me.geek.tom.debugrenderers.mixins;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import me.geek.tom.debugrenderers.utils.RenderHelper;
@@ -26,7 +26,7 @@ public abstract class MixinDebugRenderer {
     @Final @Shadow public DebugRenderer.IDebugRenderer worldGenAttempts;
     @Final @Shadow public DebugRenderer.IDebugRenderer solidFace;
     @Final @Shadow public DebugRenderer.IDebugRenderer field_217740_l; // Chunk info
-    @Final @Shadow public PointOfInterestDebugRenderer field_217741_m; // POI Info
+    @Final @Shadow public PointOfInterestDebugRenderer field_239371_m_; // POI Info
     @Final @Shadow public BeeDebugRenderer field_229017_n_; // Bee info
     @Final @Shadow public RaidDebugRenderer field_222927_n; // Raid info
     @Final @Shadow public EntityAIDebugRenderer field_217742_n; // Entity AI
@@ -37,7 +37,7 @@ public abstract class MixinDebugRenderer {
     public void onRender(MatrixStack stack, IRenderTypeBuffer.Impl buf, double camX, double camY, double camZ, CallbackInfo ci) {
         pathfinding.render(stack, buf, camX, camY, camZ); // Pathfinding info
         field_217742_n.render(stack, buf, camX, camY, camZ); // Entity AI
-        field_217741_m.render(stack, buf, camX, camY, camZ); // POI Info
+        field_239371_m_.render(stack, buf, camX, camY, camZ); // POI Info
         field_229017_n_.render(stack, buf, camX, camY, camZ); // Bee info
         RenderHelper.renderNoCamOffset(structure::render, stack, buf, camX, camY, camZ);
         //field_222927_n.render(stack, buf, camX, camY, camZ); // Raid info

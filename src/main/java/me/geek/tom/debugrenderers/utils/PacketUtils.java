@@ -2,6 +2,7 @@ package me.geek.tom.debugrenderers.utils;
 
 import io.netty.buffer.Unpooled;
 import me.geek.tom.debugrenderers.DebugRenderers;
+import me.geek.tom.debugrenderers.mixins.PathAccessor;
 import me.geek.tom.debugrenderers.utils.reflect.ReflectUtils;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
@@ -34,7 +35,7 @@ public class PacketUtils {
      * |- Amount of closed points (int)<br>
      * |- Array of closed points {you know what to do, look at @link #writePointToBuf(PacketBuffer, PathPoint)})<br>
      *
-     * @param buf Buffer to write to.
+     * @param buf  Buffer to write to.
      * @param path The path to write there.
      */
     public static void writePathToBuffer(PacketBuffer buf, Path path) {
@@ -48,7 +49,7 @@ public class PacketUtils {
 
         BlockPos target = path.getTarget();
         buf.writeInt(target.getX()).writeInt(target.getY()).writeInt(target.getZ());
-        List<PathPoint> points = path.func_215746_d();
+        List<PathPoint> points = ((PathAccessor) path).getPoints();
         buf.writeInt(points.size());
         for (PathPoint point : points)
             writePointToBuf(buf, point);
@@ -71,7 +72,7 @@ public class PacketUtils {
      * |- The index of the PathNodeType#values() array for the type of point (int)<br>
      * |- The distance to the target from this point (float)<br>
      *
-     * @param buf Buffer to write to
+     * @param buf   Buffer to write to
      * @param point The point to write to it
      */
     private static void writePointToBuf(PacketBuffer buf, PathPoint point) {
@@ -89,7 +90,7 @@ public class PacketUtils {
         }
         assert idx != -1;
         buf.writeInt(idx);
-        buf.writeFloat(point.distanceToTarget);
+        buf.writeFloat(point.costToTarget);
     }
 
     /**
@@ -98,8 +99,8 @@ public class PacketUtils {
      * |- A bool (is running?)<br>
      * |- String (assumed to be the name)<br>
      *
-     * @param buf Buffer to write to
-     * @param idx Index of the goal (assuming thats what could be put there)
+     * @param buf  Buffer to write to
+     * @param idx  Index of the goal (assuming thats what could be put there)
      * @param goal The goal to write
      */
     public static void writeGoalToBuf(PacketBuffer buf, int idx, PrioritizedGoal goal) {
@@ -165,7 +166,7 @@ public class PacketUtils {
     /**
      * Writes the given bounding box to the buffer.
      *
-     * @param bb The bounding box
+     * @param bb  The bounding box
      * @param buf The buffer to write to
      */
     public static void writeBBToBuf(MutableBoundingBox bb, PacketBuffer buf) {

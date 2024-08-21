@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.util.math.vector.Quaternion;
 
 public class RenderHelper {
     public static void renderNoCamOffset(IRenderer renderer, MatrixStack stack, IRenderTypeBuffer buf, double camX, double camY, double camZ) {

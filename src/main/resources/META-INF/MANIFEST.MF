@@ -1,1 +1,0 @@
-MixinConnector: me.geek.tom.debugrenderers.mixins.DebugRenderersMixinConnector

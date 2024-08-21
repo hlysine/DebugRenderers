@@ -8,9 +8,7 @@ import me.geek.tom.debugrenderers.utils.PacketUtils;
 import me.geek.tom.debugrenderers.utils.RenderersState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 
 @SuppressWarnings("SameReturnValue")
 public class DebugRenderersCommand {
@@ -26,12 +24,12 @@ public class DebugRenderersCommand {
         );
     }
 
-    private static final ITextComponent HELP_TITLE = new TranslationTextComponent("drenders.command.help.title");
-    private static final ITextComponent HELP_USAGE = new TranslationTextComponent("drenders.command.usage");
+    private static final TextComponent HELP_TITLE = new TranslationTextComponent("drenders.command.help.title");
+    private static final TextComponent HELP_USAGE = new TranslationTextComponent("drenders.command.usage");
 
     static {
-        HELP_TITLE.setStyle(HELP_TITLE.getStyle().setColor(TextFormatting.DARK_PURPLE));
-        HELP_USAGE.setStyle(HELP_USAGE.getStyle().setColor(TextFormatting.LIGHT_PURPLE));
+        HELP_TITLE.setStyle(HELP_TITLE.getStyle().setColor(Color.fromTextFormatting(TextFormatting.DARK_PURPLE)));
+        HELP_USAGE.setStyle(HELP_USAGE.getStyle().setColor(Color.fromTextFormatting(TextFormatting.LIGHT_PURPLE)));
     }
 
     private static ArgumentBuilder<CommandSource, ?> helpCommand(CommandDispatcher<CommandSource> dispatcher) {

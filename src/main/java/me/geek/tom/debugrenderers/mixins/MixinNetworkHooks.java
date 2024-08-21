@@ -1,4 +1,4 @@
-package me.geek.tom.debugrenderers.mixins.mixins;
+package me.geek.tom.debugrenderers.mixins;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.NetworkManager;

@@ -3,6 +3,7 @@ package me.geek.tom.debugrenderers.utils;
 import me.geek.tom.debugrenderers.commands.DebugRenderersCommand;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 import java.util.HashMap;
@@ -13,7 +14,11 @@ import static me.geek.tom.debugrenderers.DebugRenderers.MODID;
 @Mod.EventBusSubscriber(modid = MODID)
 public class RenderersState {
 
-    public static RenderersState INSTANCE;
+    public static RenderersState INSTANCE = new RenderersState();
+
+    static {
+        INSTANCE.disableAll();
+    }
 
     private final Map<RendererType, Boolean> settings = new HashMap<>();
 
@@ -25,9 +30,7 @@ public class RenderersState {
 
     @SubscribeEvent
     public static void onServerStart(FMLServerStartingEvent event) {
-        INSTANCE = new RenderersState();
-        DebugRenderersCommand.register(event.getCommandDispatcher());
-        INSTANCE.disableAll();
+        DebugRenderersCommand.register(event.getServer().getCommandManager().getDispatcher());
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
